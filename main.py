@@ -1,26 +1,38 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget
 
 from pages.home import HomePage
 from pages.patient import PatientPage
 
+from db import DB
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('ui/home.ui', self)
-        # self.home_page = HomePage()
-        # self.stackedWidget.addWidget(self.home_page)
-        # # self.first.change_btn.clicked.connect(self.go_to_second)
-        # self.patient_page = PatientPage()
-        # self.stackedWidget.addWidget(self.patient_page)
-        # # self.second.change_btn.clicked.connect(self.go_to_first)
-
-    def go_to_first(self):
-        self.stackedWidget.setCurrentIndex(0)
-
-    def go_to_second(self):
-        self.stackedWidget.setCurrentIndex(1)
-
+        self.db = DB()
+        self.init_ui()
+        
+    def init_ui(self):
+        uic.loadUi('./ui/main.ui', self)  # Load your main UI file which contains the QStackedWidget
+        self.stackedWidget = self.findChild(QStackedWidget, 'stackedWidget')
+        
+        if self.stackedWidget is None:
+            raise Exception("QStackedWidget not found. Make sure the object name is correct in the UI file.")
+        
+        self.home_page = HomePage(self.db)
+        self.patient_page = PatientPage(self.db)
+        
+        self.stackedWidget.addWidget(self.home_page)
+        self.stackedWidget.addWidget(self.patient_page)
+        
+        self.home_page.change_btn.clicked.connect(self.go_to_patient)
+        self.patient_page.change_btn.clicked.connect(self.go_to_home)
+        
+    def go_to_home(self):
+        self.stackedWidget.setCurrentWidget(self.home_page)
+        
+    def go_to_patient(self):
+        self.stackedWidget.setCurrentWidget(self.patient_page)
 
 if __name__ == '__main__':
     app = QApplication([])
