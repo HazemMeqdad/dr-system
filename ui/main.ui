@@ -20,16 +20,20 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QStackedWidget" name="stackedWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>771</width>
-      <height>551</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>771</width>
+        <height>551</height>
+       </rect>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -51,7 +55,7 @@
      <addaction name="separator"/>
      <addaction name="separator"/>
      <addaction name="actionRestore"/>
-     <addaction name="actionBackuo"/>
+     <addaction name="actionBackup"/>
     </widget>
     <addaction name="separator"/>
     <addaction name="menubackup"/>
@@ -64,7 +68,7 @@
     <string>Restore</string>
    </property>
   </action>
-  <action name="actionBackuo">
+  <action name="actionBackup">
    <property name="text">
     <string>Backup</string>
    </property>

@@ -5,25 +5,13 @@ class DB:
         self.connection = self.create_connection()
 
     def create_connection(self):
-        self.connection = None
         try:
             self.connection = sqlite3.connect("patient_records.db")
             self.create_table()
-            print(f"Connected to SQLite version {sqlite3.version}")
             return self.connection
         except sqlite3.Error as e:
             print(f"Error: {e}")
-            return self.connection
-
-    def get_all_patients(self):
-        try:
-            cursor = self.connection.cursor()
-            cursor.execute('SELECT * FROM patient_records')
-            patients = cursor.fetchall()
-            print("Fetch all patients successfully")
-            return patients
-        except sqlite3.Error as e:
-            print(f"Error creating table: {e}")
+            return None
 
     def create_table(self):
         try:
@@ -43,9 +31,17 @@ class DB:
                 )
             ''')
             self.connection.commit()
-            print("Table created successfully")
         except sqlite3.Error as e:
             print(f"Error creating table: {e}")
+
+    def get_all_patients(self):
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute('SELECT id, first_name, last_name, age, gender, address, phone, date, description, prescription FROM patient_records')
+            return cursor.fetchall()
+        except sqlite3.Error as e:
+            print(f"Error fetching patients: {e}")
+            return []
 
     def add_patient_record(self, first_name, last_name, age, gender, address, phone, date, description, prescription):
         try:
@@ -55,95 +51,17 @@ class DB:
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (first_name, last_name, age, gender, address, phone, date, description, prescription))
             self.connection.commit()
-            print("Patient record added successfully")
-            return True
         except sqlite3.Error as e:
-            print(f"Error adding patient record: {e}")
-            return False
+            print(f"Error adding patient: {e}")
 
-    def update_patient_record(self, selected_record, first_name, last_name, age, gender, address, phone, date, description, prescription):
+    def update_patient_record(self, id_, first_name, last_name, age, gender, address, phone, date, description, prescription):
         try:
             cursor = self.connection.cursor()
             cursor.execute('''
                 UPDATE patient_records
-                SET first_name=?, last_name=?, age=?, gender=?, address=?, phone=?, date=?, description=?, prescription=?
-                WHERE LOWER(first_name) LIKE ? OR LOWER(last_name) LIKE ?
-            ''', (first_name, last_name, age, gender, address, phone, date, description, prescription, f'%{selected_record}%', f'%{selected_record}%'))
+                SET first_name = ?, last_name = ?, age = ?, gender = ?, address = ?, phone = ?, date = ?, description = ?, prescription = ?
+                WHERE id = ?
+            ''', (first_name, last_name, age, gender, address, phone, date, description, prescription, id_))
             self.connection.commit()
-            print("Patient record updated successfully")
-            return True
         except sqlite3.Error as e:
-            print(f"Error updating patient record: {e}")
-            return False
-
-    def search_patient_record(self, search_query):
-        try:
-            cursor = self.connection.cursor()
-            cursor.execute('''
-                SELECT * FROM patient_records
-                WHERE LOWER(first_name) LIKE ? OR LOWER(last_name) LIKE ?
-            ''', (f'%{search_query}%', f'%{search_query}%'))
-            records = cursor.fetchall()
-            return records
-        except sqlite3.Error as e:
-            print(f"Error searching patient records: {e}")
-            return []
-
-    def delete_patient_record(self, selected_record):
-        try:
-            cursor = self.connection.cursor()
-            cursor.execute('''
-                DELETE FROM patient_records
-                WHERE LOWER(first_name) LIKE ? OR LOWER(last_name) LIKE ?
-            ''', (f'%{selected_record}%', f'%{selected_record}%'))
-            self.connection.commit()
-            print("Patient record deleted successfully")
-            return True
-        except sqlite3.Error as e:
-            print(f"Error deleting patient record: {e}")
-            return False
-
-    # def update_backup(self):
-        # try:
-            # backup_folder = "backup"
-            # os.makedirs(backup_folder, exist_ok=True)
-            # backup_db_path = os.path.join(backup_folder, "patient_records_backup.db")
-            # backup_excel_path = os.path.join(backup_folder, "patient_records_backup.xlsx")
-# 
-            # shutil.copy2("patient_records.db", backup_db_path)
-# 
-            # cursor = self.connection.cursor()
-            # cursor.execute("SELECT * FROM patient_records")
-            # records = cursor.fetchall()
-# 
-            # df = pd.DataFrame(records, columns=["ID", "First Name", "Last Name", "Age", "Gender", "Address", "Phone", "Date", "Description", "Prescription"])
-            # df.to_excel(backup_excel_path, index=False)
-            # print("Backup updated successfully")
-            # return True
-        # except Exception as e:
-            # print(f"Failed to update backup: {e}")
-            # return False
-# 
-    # def import_data(self, import_file_path):
-        # try:
-            # connection = self.create_connection()
-            # if connection:
-                # df = pd.read_excel(import_file_path)
-# 
-                # cursor = connection.cursor()
-                # cursor.execute("DELETE FROM patient_records")
-# 
-                # for _, row in df.iterrows():
-                    # cursor.execute('''
-                        # INSERT INTO patient_records (first_name, last_name, age, gender, address, phone, date, description, prescription)
-                        # VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    # ''', (row["First Name"], row["Last Name"], row["Age"], row["Gender"], row["Address"], row["Phone"], row["Date"], row["Description"], row["Prescription"]))
-# 
-                # connection.commit()
-                # connection.close()
-                # print("Data imported successfully")
-                # return True
-        # except Exception as e:
-            # print(f"Failed to import data: {e}")
-            # return False
-# 
+            print(f"Error updating patient: {e}")

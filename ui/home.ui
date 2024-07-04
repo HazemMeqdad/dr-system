@@ -2,22 +2,11 @@
 <ui version="4.0">
  <class>HomePage</class>
  <widget class="QWidget" name="HomePage">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>798</width>
-    <height>570</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>HomePage</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLineEdit" name="search_bar">
      <property name="placeholderText">
-      <string>Search...</string>
+      <string>Search</string>
      </property>
     </widget>
    </item>

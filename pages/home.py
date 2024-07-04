@@ -1,7 +1,6 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QWidget, QPushButton, QTableWidget, QTableWidgetItem, QLineEdit, QVBoxLayout, QHBoxLayout, QSizePolicy
+from PyQt5.QtWidgets import QWidget, QPushButton, QTableWidget, QTableWidgetItem, QLineEdit
 from PyQt5.QtCore import Qt
-import typing as t
 from db import DB
 
 class HomePage(QWidget):
@@ -11,31 +10,26 @@ class HomePage(QWidget):
         uic.loadUi("ui/home.ui", self)
 
         self.change_btn = self.findChild(QPushButton, 'change_btn')
-        if self.change_btn is None:
-            raise Exception("change_btn not found. Make sure the object name is correct in the UI file.")
-
+        self.add_patient_btn = self.findChild(QPushButton, 'change_btn_2')
         self.patient_table = self.findChild(QTableWidget, 'patient_table')
-        if self.patient_table is None:
-            raise Exception("patient_table not found. Make sure the object name is correct in the UI file.")
-
         self.search_bar = self.findChild(QLineEdit, 'search_bar')
-        if self.search_bar is None:
-            raise Exception("search_bar not found. Make sure the object name is correct in the UI file.")
 
         self.search_bar.textChanged.connect(self.filter_table)
 
         # Set table headers
-        headers = ["ID", "First Name", "Last Name", "Age", "Gender", "Address", "Phone"]
+        headers = ["ID", "First Name", "Last Name", "Age", "Gender", "Address", "Phone", "Date", "Description", "Prescription"]
         self.patient_table.setColumnCount(len(headers))
         self.patient_table.setHorizontalHeaderLabels(headers)
 
-        # Static data for patients
-        self.patients = [
-            [1, "John", "Doe", 30, "Male", "123 Elm St", "123-456-7890"],
-            [2, "Jane", "Smith", 25, "Female", "456 Oak St", "234-567-8901"],
-            [3, "Alice", "Johnson", 28, "Female", "789 Pine St", "345-678-9012"],
-            [4, "Bob", "Brown", 35, "Male", "101 Maple St", "456-789-0123"],
-        ]
+        # Disable the table but allow selection
+        self.patient_table.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.patient_table.setSelectionBehavior(QTableWidget.SelectRows)
+        self.patient_table.setSelectionMode(QTableWidget.SingleSelection)
+
+        self.load_patients()
+
+    def load_patients(self):
+        self.patients = self.db.get_all_patients()
         self.populate_table(self.patients)
 
     def populate_table(self, data):
@@ -52,3 +46,9 @@ class HomePage(QWidget):
             if any(filter_text in str(value).lower() for value in patient)
         ]
         self.populate_table(filtered_data)
+
+    def get_selected_patient(self):
+        selected_row = self.patient_table.currentRow()
+        if selected_row >= 0:
+            return self.patients[selected_row]
+        return None

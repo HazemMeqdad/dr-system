@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PatientPage</class>
- <widget class="QWidget" name="PatientPage">
+ <class>AddPatientPage</class>
+ <widget class="QWidget" name="AddPatientPage">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,42 +11,32 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Patient Details</string>
+   <string>Add Patient</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLineEdit" name="id_edit">
-     <property name="placeholderText">
-      <string>ID</string>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLineEdit" name="first_name_edit">
+    <widget class="QLineEdit" name="first_name">
      <property name="placeholderText">
       <string>First Name</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="last_name_edit">
+    <widget class="QLineEdit" name="last_name">
      <property name="placeholderText">
       <string>Last Name</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="age_edit">
+    <widget class="QLineEdit" name="age">
      <property name="placeholderText">
       <string>Age</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QComboBox" name="gender_edit">
+    <widget class="QComboBox" name="gender">
      <item>
       <property name="text">
        <string>Male</string>
@@ -60,21 +50,21 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="address_edit">
+    <widget class="QLineEdit" name="address">
      <property name="placeholderText">
       <string>Address</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="phone_edit">
+    <widget class="QLineEdit" name="phone">
      <property name="placeholderText">
       <string>Phone</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QDateEdit" name="date_edit">
+    <widget class="QDateEdit" name="date">
      <property name="calendarPopup">
       <bool>true</bool>
      </property>
@@ -84,14 +74,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="description_edit">
+    <widget class="QTextEdit" name="description">
      <property name="placeholderText">
       <string>Description</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="prescription_edit">
+    <widget class="QTextEdit" name="prescription">
      <property name="placeholderText">
       <string>Prescription</string>
      </property>
@@ -100,16 +90,16 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="save_btn">
+      <widget class="QPushButton" name="submit_btn">
        <property name="text">
-        <string>Save</string>
+        <string>Submit</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="change_btn">
+      <widget class="QPushButton" name="cancel_btn">
        <property name="text">
-        <string>Back</string>
+        <string>Cancel</string>
        </property>
       </widget>
      </item>
