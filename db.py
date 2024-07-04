@@ -5,14 +5,25 @@ class DB:
         self.connection = self.create_connection()
 
     def create_connection(self):
-        connection = None
+        self.connection = None
         try:
-            connection = sqlite3.connect("patient_records.db")
+            self.connection = sqlite3.connect("patient_records.db")
+            self.create_table()
             print(f"Connected to SQLite version {sqlite3.version}")
-            return connection
+            return self.connection
         except sqlite3.Error as e:
             print(f"Error: {e}")
-            return connection
+            return self.connection
+
+    def get_all_patients(self):
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute('SELECT * FROM patient_records')
+            patients = cursor.fetchall()
+            print("Fetch all patients successfully")
+            return patients
+        except sqlite3.Error as e:
+            print(f"Error creating table: {e}")
 
     def create_table(self):
         try:
