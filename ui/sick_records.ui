@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>400</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,16 +18,64 @@
     <widget class="QTableWidget" name="sick_records_table"/>
    </item>
    <item>
-    <widget class="QLineEdit" name="sick_date">
-     <property name="placeholderText">
-      <string>Sick Date</string>
+    <widget class="QDateEdit" name="sick_date">
+     <property name="calendarPopup">
+      <bool>true</bool>
+     </property>
+     <property name="displayFormat">
+      <string>dd/MM/yyyy</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="symptoms">
+    <widget class="QLineEdit" name="complaint">
      <property name="placeholderText">
-      <string>Symptoms</string>
+      <string>Complaint</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="medical_history">
+     <property name="placeholderText">
+      <string>Medical History</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="examination">
+     <property name="placeholderText">
+      <string>Examination</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="tests_results">
+     <property name="placeholderText">
+      <string>Tests and Results</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="upload_image_btn">
+     <property name="text">
+      <string>Upload Image</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="image_label">
+     <property name="text">
+      <string>No image uploaded</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="diagnosis">
+     <property name="placeholderText">
+      <string>Diagnosis</string>
      </property>
     </widget>
    </item>

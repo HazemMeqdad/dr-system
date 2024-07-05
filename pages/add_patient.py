@@ -16,6 +16,7 @@ class AddPatientPage(QWidget):
         self.last_name = self.findChild(QLineEdit, 'last_name')
         self.age = self.findChild(QLineEdit, 'age')
         self.gender = self.findChild(QComboBox, 'gender')
+        self.identification_card = self.findChild(QLineEdit, 'identification_card')
         self.address = self.findChild(QLineEdit, 'address')
         self.phone = self.findChild(QLineEdit, 'phone')
         self.date = self.findChild(QDateEdit, 'date')
@@ -38,6 +39,8 @@ class AddPatientPage(QWidget):
             return False, "Age must be a positive number."
         if self.gender.currentText().strip() not in ['Male', 'Female']:
             return False, "Gender must be Male or Female."
+        if not self.identification_card.text().strip():
+            return False, "Identification Card is required."
         if not self.address.text().strip():
             return False, "Address is required."
         if not self.phone.text().strip():
@@ -63,13 +66,14 @@ class AddPatientPage(QWidget):
         last_name = self.last_name.text().strip()
         age = int(self.age.text().strip())
         gender = self.gender.currentText().strip()
+        identification_card = self.identification_card.text().strip()
         address = self.address.text().strip()
         phone = self.phone.text().strip()
         date = self.date.date().toString("dd/MM/yyyy")
         description = self.description.toPlainText().strip()
         prescription = self.prescription.toPlainText().strip()
         
-        self.db.add_patient_record(first_name, last_name, age, gender, address, phone, date, description, prescription)
+        self.db.add_patient_record(first_name, last_name, age, gender, identification_card, address, phone, date, description, prescription)
         self.clear_fields()
         self.patient_added.emit()  # Emit the signal
         self.parentWidget().setCurrentIndex(0)  # Switch back to home page
@@ -79,6 +83,7 @@ class AddPatientPage(QWidget):
         self.last_name.clear()
         self.age.clear()
         self.gender.setCurrentIndex(0)  # Reset to first item
+        self.identification_card.clear()
         self.address.clear()
         self.phone.clear()
         self.date.setDate(QDate.currentDate())

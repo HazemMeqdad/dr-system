@@ -23,6 +23,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="sick_records_btn">
+       <property name="text">
+        <string>View Sick Records</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -42,13 +49,6 @@
       <widget class="QPushButton" name="change_btn_2">
        <property name="text">
         <string>Add Patient</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="sick_records_btn">
-       <property name="text">
-        <string>View Sick Records</string>
        </property>
       </widget>
      </item>

@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         self.stackedWidget.addWidget(self.add_patient_page)
         self.stackedWidget.addWidget(self.sick_records_page)
 
-        self.home_page.change_btn.clicked.connect(self.show_patient_details)
+        self.home_page.change_btn.clicked.connect(self.home_page.view_patient_details)
         self.patient_page.change_btn.clicked.connect(self.go_to_home)
         self.home_page.add_patient_btn.clicked.connect(self.go_to_add_patient)
         self.add_patient_page.patient_added.connect(self.refresh_home_page)
@@ -53,11 +53,9 @@ class MainWindow(QMainWindow):
         self.home_page.load_patients()
         self.go_to_home()
 
-    def show_patient_details(self):
-        selected_patient = self.home_page.get_selected_patient()
-        if selected_patient:
-            self.patient_page.display_patient_details(selected_patient)
-            self.go_to_patient()
+    def show_patient_details(self, selected_patient):
+        self.patient_page.display_patient_details(selected_patient)
+        self.go_to_patient()
 
     def view_sick_records(self, patient_id):
         self.sick_records_page.load_sick_records(patient_id)

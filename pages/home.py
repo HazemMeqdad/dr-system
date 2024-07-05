@@ -1,6 +1,6 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import QWidget, QPushButton, QTableWidget, QTableWidgetItem, QLineEdit
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QDate
 from db import DB
 
 class HomePage(QWidget):
@@ -19,7 +19,7 @@ class HomePage(QWidget):
         self.search_bar.textChanged.connect(self.filter_table)
 
         # Set table headers
-        headers = ["ID", "First Name", "Last Name", "Age", "Gender", "Address", "Phone", "Date", "Description", "Prescription"]
+        headers = ["ID", "First Name", "Last Name", "Age", "Gender", "Identification Card", "Address", "Phone", "Date", "Description", "Prescription"]
         self.patient_table.setColumnCount(len(headers))
         self.patient_table.setHorizontalHeaderLabels(headers)
 
@@ -28,8 +28,15 @@ class HomePage(QWidget):
         self.patient_table.setSelectionBehavior(QTableWidget.SelectRows)
         self.patient_table.setSelectionMode(QTableWidget.SingleSelection)
 
+        # Initially disable buttons
+        self.change_btn.setEnabled(False)
+        self.sick_records_btn.setEnabled(False)
+
+        self.patient_table.selectionModel().selectionChanged.connect(self.update_buttons_state)
+
         self.load_patients()
 
+        self.change_btn.clicked.connect(self.view_patient_details)
         self.sick_records_btn.clicked.connect(self.view_sick_records)
 
     def load_patients(self):
@@ -40,7 +47,10 @@ class HomePage(QWidget):
         self.patient_table.setRowCount(len(data))
         for row_idx, patient in enumerate(data):
             for col_idx, value in enumerate(patient):
-                item = QTableWidgetItem(str(value))
+                if col_idx == 8:  # Format the date column
+                    item = QTableWidgetItem(QDate.fromString(value, "yyyy-MM-dd").toString("dd/MM/yyyy"))
+                else:
+                    item = QTableWidgetItem(str(value))
                 self.patient_table.setItem(row_idx, col_idx, item)
 
     def filter_table(self):
@@ -57,7 +67,17 @@ class HomePage(QWidget):
             return self.patients[selected_row]
         return None
 
+    def view_patient_details(self):
+        selected_patient = self.get_selected_patient()
+        if selected_patient:
+            self.main_window.show_patient_details(selected_patient)
+
     def view_sick_records(self):
         selected_patient = self.get_selected_patient()
         if selected_patient:
             self.main_window.view_sick_records(selected_patient[0])
+
+    def update_buttons_state(self):
+        has_selection = bool(self.get_selected_patient())
+        self.change_btn.setEnabled(has_selection)
+        self.sick_records_btn.setEnabled(has_selection)

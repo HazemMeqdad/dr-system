@@ -60,6 +60,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QLineEdit" name="identification_card_edit">
+     <property name="placeholderText">
+      <string>Identification Card</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLineEdit" name="address_edit">
      <property name="placeholderText">
       <string>Address</string>
