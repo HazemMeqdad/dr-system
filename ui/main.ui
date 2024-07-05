@@ -10,28 +10,13 @@
     <height>600</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>800</width>
-    <height>600</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QStackedWidget" name="stackedWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>771</width>
-        <height>551</height>
-       </rect>
-      </property>
-     </widget>
+     <widget class="QStackedWidget" name="stackedWidget"/>
     </item>
    </layout>
   </widget>
@@ -41,36 +26,27 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuQStackedWidget">
+   <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>Settings</string>
+     <string>File</string>
     </property>
-    <widget class="QMenu" name="menubackup">
-     <property name="title">
-      <string>backup</string>
-     </property>
-     <addaction name="separator"/>
-     <addaction name="separator"/>
-     <addaction name="actionRestore"/>
-     <addaction name="actionBackup"/>
-    </widget>
-    <addaction name="separator"/>
-    <addaction name="menubackup"/>
+    <addaction name="actionBackup"/>
+    <addaction name="actionRestore"/>
    </widget>
-   <addaction name="menuQStackedWidget"/>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionRestore">
-   <property name="text">
-    <string>Restore</string>
-   </property>
-  </action>
   <action name="actionBackup">
    <property name="text">
     <string>Backup</string>
+   </property>
+  </action>
+  <action name="actionRestore">
+   <property name="text">
+    <string>Restore</string>
    </property>
   </action>
  </widget>

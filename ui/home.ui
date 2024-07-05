@@ -45,6 +45,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="sick_records_btn">
+       <property name="text">
+        <string>View Sick Records</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

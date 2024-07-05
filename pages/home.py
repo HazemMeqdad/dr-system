@@ -4,13 +4,15 @@ from PyQt5.QtCore import Qt
 from db import DB
 
 class HomePage(QWidget):
-    def __init__(self, db: DB, *args, **kwargs) -> None:
+    def __init__(self, db: DB, main_window, *args, **kwargs) -> None:
         self.db = db
+        self.main_window = main_window
         super().__init__(*args, **kwargs)
         uic.loadUi("ui/home.ui", self)
 
         self.change_btn = self.findChild(QPushButton, 'change_btn')
         self.add_patient_btn = self.findChild(QPushButton, 'change_btn_2')
+        self.sick_records_btn = self.findChild(QPushButton, 'sick_records_btn')
         self.patient_table = self.findChild(QTableWidget, 'patient_table')
         self.search_bar = self.findChild(QLineEdit, 'search_bar')
 
@@ -27,6 +29,8 @@ class HomePage(QWidget):
         self.patient_table.setSelectionMode(QTableWidget.SingleSelection)
 
         self.load_patients()
+
+        self.sick_records_btn.clicked.connect(self.view_sick_records)
 
     def load_patients(self):
         self.patients = self.db.get_all_patients()
@@ -52,3 +56,8 @@ class HomePage(QWidget):
         if selected_row >= 0:
             return self.patients[selected_row]
         return None
+
+    def view_sick_records(self):
+        selected_patient = self.get_selected_patient()
+        if selected_patient:
+            self.main_window.view_sick_records(selected_patient[0])
