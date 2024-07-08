@@ -7,7 +7,7 @@ class DB:
     def __init__(self):
         self.db_path = "patient_records.db"
         self.connection = self.create_connection()
-        self.update_schema()  # Ensure the schema is up to date
+        self.create_table()  # Ensure the schema is created the tables
 
     def create_connection(self):
         try:
@@ -52,29 +52,6 @@ class DB:
             self.connection.commit()
         except sqlite3.Error as e:
             print(f"Error creating table: {e}")
-
-    def update_schema(self):
-        try:
-            cursor = self.connection.cursor()
-            cursor.execute("PRAGMA table_info(sick_records)")
-            columns = [col[1] for col in cursor.fetchall()]
-            if 'complaint' not in columns:
-                cursor.execute("ALTER TABLE sick_records ADD COLUMN complaint TEXT")
-            if 'medical_history' not in columns:
-                cursor.execute("ALTER TABLE sick_records ADD COLUMN medical_history TEXT")
-            if 'examination' not in columns:
-                cursor.execute("ALTER TABLE sick_records ADD COLUMN examination TEXT")
-            if 'tests_results' not in columns:
-                cursor.execute("ALTER TABLE sick_records ADD COLUMN tests_results TEXT")
-            if 'test_image' not in columns:
-                cursor.execute("ALTER TABLE sick_records ADD COLUMN test_image BLOB")
-            if 'diagnosis' not in columns:
-                cursor.execute("ALTER TABLE sick_records ADD COLUMN diagnosis TEXT")
-            if 'symptoms' in columns:
-                self.remove_symptoms_column()
-            self.connection.commit()
-        except sqlite3.Error as e:
-            print(f"Error updating schema: {e}")
 
     def remove_symptoms_column(self):
         try:
@@ -128,7 +105,7 @@ class DB:
         except sqlite3.Error as e:
             print(f"Error adding patient: {e}")
 
-    def update_patient_record(self, id_, first_name, last_name, age, gender, identification_card, address, phone, date, description, prescription):
+    def update_patient(self, id_, first_name, last_name, age, gender, identification_card, address, phone, date, description, prescription):
         try:
             cursor = self.connection.cursor()
             cursor.execute('''
@@ -137,9 +114,11 @@ class DB:
                 WHERE id = ?
             ''', (first_name, last_name, age, gender, identification_card, address, phone, date, description, prescription, id_))
             self.connection.commit()
+            return True
         except sqlite3.Error as e:
             print(f"Error updating patient: {e}")
-
+            return False
+        
     def add_sick_record(self, patient_id, sick_date, complaint, medical_history, examination, tests_results, test_image, diagnosis):
         try:
             cursor = self.connection.cursor()

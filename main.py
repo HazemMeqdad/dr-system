@@ -13,7 +13,7 @@ class MainWindow(QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        uic.loadUi('./ui/main.ui', self)
+        uic.loadUi('ui/main.ui', self)
         self.stackedWidget = self.findChild(QStackedWidget, 'stackedWidget')
 
         if self.stackedWidget is None:
